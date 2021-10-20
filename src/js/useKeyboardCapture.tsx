@@ -1,60 +1,40 @@
-import React, { useEffect, useState } from 'react';
-
-// interface UseKeyboardCapture {
-//   element?: React.RefObject<HTMLElement>
-// }
+import React, { useEffect, useRef } from 'react';
+import { keyboardEventListener } from './keyboardEventListener';
 
 type Element = React.RefObject<HTMLElement> | Document;
 
-interface Stack {
-  [key: string]: Array<{
-    callback: (event: KeyboardEvent) => unknown;
-    element: Element;
-    position: number;
-  }>;
-}
-
 type ModifierKeys = 'Control' | 'Meta' | 'Alt' | 'AltGraph' | 'Shift';
 
-type Register = (
+type UseKeyboardCapture = (
   key: KeyboardEvent['key'],
   callback: (event: KeyboardEvent) => unknown,
-  modifiers?: ModifierKeys | Array<ModifierKeys>,
+  modifiers?: Array<ModifierKeys>,
   element?: Element
-) => number;
+) => void;
 
-const stack: Stack = {};
+export const useKeyboardCapture: UseKeyboardCapture = (key, callback, modifiers, element) => {
+  if (element === null) {
+    throw new Error(
+      'You tried to bind an event to a ref that has not been initiated, make sure your ref exists first!'
+    );
+  }
 
-export const useKeyboardCapture = () => {
+  const processed = useRef<boolean>(false);
+
+  if (processed.current) {
+    return;
+  }
+
   const listener = (event: KeyboardEvent) => {
-    const key = event.key.toUpperCase();
-    if (stack[key]) {
-      console.log('key is bound', stack[key]);
+    if (key.toUpperCase() === event.key.toUpperCase()) {
+      console.log('key is bound', key);
     }
-  };
-
-  const register: Register = (key, callback, modifiers, element) => {
-    console.log(element);
-    const k = key.toUpperCase();
-    if (!stack[k]) {
-      stack[k] = [];
-    }
-    const index = stack[k].length;
-    stack[k].push({
-      callback,
-      element: element === undefined ? document : element,
-      position: index,
-    });
-    return index;
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', listener);
+    const { register, unregister } = keyboardEventListener;
+    register(listener);
 
-    return () => document.removeEventListener('keydown', listener);
+    return () => unregister(listener);
   }, []);
-
-  return {
-    register,
-  };
 };

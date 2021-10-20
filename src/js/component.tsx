@@ -1,16 +1,10 @@
-import React, { useRef } from 'react';
-import { useKeyboardCapture } from './useKeyboardCapture';
+import React, { useRef, useState } from 'react';
+import { KeyboardComponent } from './KeyboardComponent';
 
 export const Component = () => {
-  const div = useRef<HTMLDivElement>(null);
-  const { register } = useKeyboardCapture();
-  // const { register2 } = useKeyboardCapture();
+  const [show, setShow] = useState(true);
 
-  register('s', (event) => console.log(event.key), [], div);
+  setTimeout(() => setShow(false), 3000);
 
-  return (
-    <div>
-      <div ref={div}>Frontend Template Test View</div>
-    </div>
-  );
+  return <div>{show && <KeyboardComponent />}</div>;
 };
