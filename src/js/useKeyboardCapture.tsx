@@ -1,40 +1,49 @@
-import React, { useEffect, useRef } from 'react';
+import { useCallback, useEffect } from 'react';
+import type { RefObject } from 'react';
 import { keyboardEventListener } from './keyboardEventListener';
-
-type Element = React.RefObject<HTMLElement> | Document;
 
 type ModifierKeys = 'Control' | 'Meta' | 'Alt' | 'AltGraph' | 'Shift';
 
 type UseKeyboardCapture = (
-  key: KeyboardEvent['key'],
+  keys: Array<KeyboardEvent['key']>,
   callback: (event: KeyboardEvent) => unknown,
   modifiers?: Array<ModifierKeys>,
-  element?: Element
-) => void;
+  element?: RefObject<HTMLElement>
+) => {
+  unregister: () => void;
+};
 
-export const useKeyboardCapture: UseKeyboardCapture = (key, callback, modifiers, element) => {
-  if (element === null) {
-    throw new Error(
-      'You tried to bind an event to a ref that has not been initiated, make sure your ref exists first!'
-    );
-  }
+export const useKeyboardCapture: UseKeyboardCapture = (keys, callback, modifiers = [], element) => {
+  const { register: eventRegister, unregister: eventUnregister } = keyboardEventListener;
 
-  const processed = useRef<boolean>(false);
+  const listener = useCallback((event: KeyboardEvent) => {
+    keys.forEach((k) => {
+      // Key value matches
+      if (k.toUpperCase() === event.key.toUpperCase()) {
+        // Event is triggered within specified element (if given)
+        if (element === undefined || element.current?.contains(event.target as Node)) {
+          // Make sure modifiers match
+          const modifierCheck = modifiers.every((m) => event.getModifierState(m));
+          if (modifierCheck) {
+            console.log('firing key press match event', event);
+            callback(event);
+          }
+        }
+      }
+    });
+  }, []);
 
-  if (processed.current) {
-    return;
-  }
-
-  const listener = (event: KeyboardEvent) => {
-    if (key.toUpperCase() === event.key.toUpperCase()) {
-      console.log('key is bound', key);
-    }
+  const unregister = () => {
+    eventUnregister(listener);
   };
 
   useEffect(() => {
-    const { register, unregister } = keyboardEventListener;
-    register(listener);
+    eventRegister(listener);
 
-    return () => unregister(listener);
+    return () => eventUnregister(listener);
   }, []);
+
+  return {
+    unregister,
+  };
 };

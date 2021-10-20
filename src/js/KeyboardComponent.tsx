@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useKeyboardCapture } from './useKeyboardCapture';
 
 export const KeyboardComponent = () => {
   const div = useRef<HTMLDivElement>(null);
   const [s, setS] = useState('x');
-  const onS = (event: KeyboardEvent) => {
-    console.log('s pressed');
+  const onKeyPress = (event: KeyboardEvent) => {
+    event.preventDefault();
+    setS(event.key);
   };
 
-  const onA = (event: KeyboardEvent) => {
-    console.log('a pressed');
-  };
-  useKeyboardCapture('s', onS);
-  useKeyboardCapture('a', onA);
+  useKeyboardCapture(['s', 'a'], onKeyPress, ['Meta']);
 
-  return <div ref={div}>Keyboard listener</div>;
+  return (
+    <div ref={div} tabIndex={0}>
+      Keyboard listener {s}
+    </div>
+  );
 };
