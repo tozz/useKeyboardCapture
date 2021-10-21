@@ -7,9 +7,11 @@ export const KeyboardComponent = () => {
   const onKeyPress = (event: KeyboardEvent) => {
     event.preventDefault();
     setS(event.key);
+    return true;
   };
 
   useKeyboardCapture(['s', 'a'], onKeyPress, ['Meta']);
+  useKeyboardCapture(['a'], () => false, ['Meta']);
 
   return (
     <div ref={div} tabIndex={0}>
