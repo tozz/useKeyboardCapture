@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react';
-import { keyboardEventListener } from './keyboardEventListener';
+import { eventHandler } from './eventHandler';
 
 export type ModifierKeys = 'Control' | 'Meta' | 'Alt' | 'AltGraph' | 'Shift';
 
-type UseKeyboardCapture = (
+type UseKeyboardListener = (
   keys: Array<KeyboardEvent['key']>,
   callback: (event: KeyboardEvent) => boolean,
   modifiers?: Array<ModifierKeys>
@@ -11,8 +11,8 @@ type UseKeyboardCapture = (
   unregister: () => void;
 };
 
-export const useKeyboardCapture: UseKeyboardCapture = (keys, callback, modifiers = []) => {
-  const { register: eventRegister, unregister: eventUnregister } = keyboardEventListener;
+export const useKeyboardListener: UseKeyboardListener = (keys, callback, modifiers = []) => {
+  const { register: eventRegister, unregister: eventUnregister } = eventHandler;
 
   const listener = useCallback((event: KeyboardEvent) => {
     let runNextListener = true;

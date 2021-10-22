@@ -1,5 +1,5 @@
 import React from 'react';
-import { ModifierKeys, useKeyboardCapture } from './useKeyboardCapture';
+import { ModifierKeys, useKeyboardListener } from './useKeyboardListener';
 
 interface Props {
   keys: Array<KeyboardEvent['key']>;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const KeyboardListener = ({ keys, onKeyDown, modifiers }: Props) => {
-  useKeyboardCapture(keys, onKeyDown, modifiers);
+  useKeyboardListener(keys, onKeyDown, modifiers);
 
   return <></>;
 };
