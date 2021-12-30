@@ -9,6 +9,7 @@
     "esbuild": "esbuild --target=es2020 --bundle src/js/main.tsx --outfile=www/main.js",
     "postcss": "postcss src/css/tailwind.css --dir ./www",
     "build:js": "yarn esbuild --minify",
+    "build:module": "esbuild --target=es2020 --minify --bundle src/js/module/index.ts --outfile=www/index.js --external:react",
     "build:css": "yarn postcss",
     "build": "NODE_ENV=production concurrently \"yarn build:js\" \"yarn build:css\"",
     "watch:js": "yarn esbuild --watch",
