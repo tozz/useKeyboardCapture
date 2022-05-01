@@ -7,7 +7,6 @@ const keyboardEventListenerFunc = () => {
   } = { keydown: [] };
 
   const onKeyDown = (event: KeyboardEvent) => {
-    console.log(event.key);
     if (registeredListeners.keydown.length > 0) {
       let continueProcessing = true;
       registeredListeners.keydown.forEach((listener) => {
@@ -19,12 +18,10 @@ const keyboardEventListenerFunc = () => {
   };
 
   const register = (listener: EventHandler, event: KeyboardEventName = 'keydown') => {
-    // console.log('registering', listener);
     registeredListeners[event].unshift(listener);
   };
 
   const unregister = (listener: EventHandler, event: KeyboardEventName = 'keydown') => {
-    // console.log('unregistering', listener);
     registeredListeners[event] = registeredListeners[event].filter((registered) => registered !== listener);
   };
 

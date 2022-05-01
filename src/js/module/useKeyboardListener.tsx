@@ -19,11 +19,10 @@ export const useKeyboardListener: UseKeyboardListener = (keys, callback, modifie
     let matched = false;
     keys.forEach((k) => {
       // Key value matches
-      if (!matched && k.toUpperCase() === event.key.toUpperCase()) {
+      if (!matched && k === event.key) {
         // Make sure modifiers match
         const modifierCheck = modifiers.every((m) => event.getModifierState(m));
         if (modifierCheck) {
-          // console.log('firing keydown match', event);
           runNextListener = callback(event);
           matched = true;
         }

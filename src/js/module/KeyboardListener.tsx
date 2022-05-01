@@ -1,5 +1,6 @@
 import React from 'react';
-import { ModifierKeys, useKeyboardListener } from './useKeyboardListener';
+import type { ModifierKeys } from './useKeyboardListener';
+import { useKeyboardListener } from './useKeyboardListener';
 
 interface Props {
   keys: Array<KeyboardEvent['key']>;
