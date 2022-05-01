@@ -34,8 +34,17 @@ module.exports = {
     },
   },
   rules: {
+    '@typescript-eslint/consistent-type-imports': 1,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+      },
+    ],
     '@typescript-eslint/no-use-before-define': ['error'],
     'import/extensions': [
       'error',
