@@ -1,18 +1,19 @@
 import { useCallback, useEffect } from 'react';
+import type { KeyDownHandler } from './eventHandler';
 import { eventHandler } from './eventHandler';
 
-export type ModifierKeys = 'Control' | 'Meta' | 'Alt' | 'AltGraph' | 'Shift';
+export type ModifierKeys = 'Control' | 'Meta' | 'ControlOrMeta' | 'Alt' | 'AltGraph' | 'Shift';
 
 type UseKeyboardListener = (
   keys: Array<KeyboardEvent['key']>,
-  callback: (event: KeyboardEvent) => boolean,
+  callback: KeyDownHandler,
   modifiers?: Array<ModifierKeys>
 ) => {
   unregister: () => void;
 };
 
 export const useKeyboardListener: UseKeyboardListener = (keys, callback, modifiers = []) => {
-  const { register: eventRegister, unregister: eventUnregister } = eventHandler;
+  const { register: eventHandlerRegister, unregister: eventHandlerUnregister } = eventHandler;
 
   const listener = useCallback((event: KeyboardEvent) => {
     let runNextListener = true;
@@ -21,7 +22,14 @@ export const useKeyboardListener: UseKeyboardListener = (keys, callback, modifie
       // Key value matches
       if (!matched && k === event.key) {
         // Make sure modifiers match
-        const modifierCheck = modifiers.every((m) => event.getModifierState(m));
+        const modifierCheck =
+          modifiers.length > 0
+            ? modifiers.every((m) =>
+                m === 'ControlOrMeta'
+                  ? event.getModifierState('Control') || event.getModifierState('Meta')
+                  : event.getModifierState(m)
+              )
+            : true;
         if (modifierCheck) {
           runNextListener = callback(event);
           matched = true;
@@ -32,13 +40,13 @@ export const useKeyboardListener: UseKeyboardListener = (keys, callback, modifie
   }, []);
 
   const unregister = () => {
-    eventUnregister(listener);
+    eventHandlerUnregister(listener);
   };
 
   useEffect(() => {
-    eventRegister(listener);
+    eventHandlerRegister(listener);
 
-    return () => eventUnregister(listener);
+    return () => eventHandlerUnregister(listener);
   }, []);
 
   return {

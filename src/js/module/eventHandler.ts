@@ -1,5 +1,6 @@
 type EventHandler = (event: KeyboardEvent) => boolean;
 type KeyboardEventName = 'keydown';
+export type KeyDownHandler = (event: KeyboardEvent) => boolean;
 
 const keyboardEventListenerFunc = () => {
   const registeredListeners: {
@@ -9,7 +10,7 @@ const keyboardEventListenerFunc = () => {
   const onKeyDown = (event: KeyboardEvent) => {
     if (registeredListeners.keydown.length > 0) {
       let continueProcessing = true;
-      registeredListeners.keydown.forEach((listener) => {
+      registeredListeners.keydown.forEach((listener: KeyDownHandler) => {
         if (continueProcessing) {
           continueProcessing = listener(event);
         }
