@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "jest": "^28.0.3",
-    "jest-environment-jsdom": "^28.0.2",
+    "jest-environment-jsdom": "^28.1.0",
     "msw": "^0.39.2",
     "postcss": "^8.4.13",
     "postcss-cli": "^9.1.0",
