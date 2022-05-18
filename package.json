@@ -8,7 +8,7 @@
   "scripts": {
     "build": "NODE_ENV=production esbuild --target=es2020 --minify --bundle src/index.ts --outfile=www/index.js --external:react",
     "test": "jest",
-    "test:coverage": "jest --collectCoverage"
+    "test:coverage": "jest --collectCoverage "
   },
   "devDependencies": {
     "@testing-library/dom": "^8.13.0",
@@ -17,11 +17,11 @@
     "@testing-library/react-hooks": "^8.0.0",
     "@testing-library/user-event": "^14.2.0",
     "@types/jest": "^27.5.1",
-    "@types/node": "^16.11.35",
+    "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.23.0",
-    "@typescript-eslint/parser": "^5.23.0",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
     "esbuild": "^0.14.39",
     "eslint": "^8.15.0",
     "eslint-config-airbnb-base": "^15.0.0",
