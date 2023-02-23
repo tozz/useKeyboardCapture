@@ -1028,10 +1028,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^16.11.36":
-  version: 16.11.36
-  resolution: "@types/node@npm:16.11.36"
-  checksum: 878e8e2032869785dd4f73dd862042c7eb588fb9a27199f1b493a7029438ccb58f96e203c35c2e66e08307ca3f9767133cae888958c15e031982f7e9719e5e47
+"@types/node@npm:^18.14.1":
+  version: 18.14.1
+  resolution: "@types/node@npm:18.14.1"
+  checksum: 58556bbdb0050e44a4934742c1da2530812782c06d266a758e669e44c5aa196166c5fce45fdb03f016876717e3840478b3220129bb77367f979607564047f0a3
   languageName: node
   linkType: hard
 
@@ -5253,7 +5253,7 @@ __metadata:
     "@testing-library/react-hooks": ^8.0.0
     "@testing-library/user-event": ^14.2.0
     "@types/jest": ^27.5.1
-    "@types/node": ^16.11.36
+    "@types/node": ^18.14.1
     "@types/react": ^18.0.9
     "@types/react-dom": ^18.0.4
     "@typescript-eslint/eslint-plugin": ^5.25.0
